@@ -69,5 +69,4 @@ public interface HistoryEventMapper {
   @Delete(
       "<script>DELETE FROM HISTORY_EVENTS WHERE TASK_ID IN(<foreach item='item' collection='taskIds' separator=',' >#{item}</foreach>)</script>")
   void deleteMultipleByTaskIds(@Param("taskIds") List<String> taskIds);
-
 }

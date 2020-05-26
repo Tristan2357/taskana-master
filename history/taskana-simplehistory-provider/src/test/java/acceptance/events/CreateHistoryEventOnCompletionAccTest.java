@@ -35,7 +35,7 @@ class CreateHistoryEventOnCompletionAccTest extends AbstractAccTest {
   @Test
   void should_CreateCompletedHistoryEvent_When_TaskIsCompleted() throws Exception {
 
-    final String taskId = "TKI:000000000000000000000000000000000001";
+    final String taskId = "TKI:000000000000000000000000000000000041";
 
     HistoryQueryMapper historyQueryMapper = getHistoryQueryMapper();
 

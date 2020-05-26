@@ -33,7 +33,7 @@ class CreateHistoryEventOnTransferAccTest extends AbstractAccTest {
   @Test
   void should_CreateTransferredHistoryEvent_When_TaskIstransferred() throws Exception {
 
-    final String taskId = "TKI:000000000000000000000000000000000003";
+    final String taskId = "TKI:000000000000000000000000000000000020";
 
     HistoryQueryMapper historyQueryMapper = getHistoryQueryMapper();
 
