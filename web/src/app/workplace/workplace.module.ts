@@ -23,6 +23,8 @@ import { TaskListComponent } from './components/task-list/task-list.component';
 import { TaskService } from './services/task.service';
 import { TokenInterceptor } from './services/token-interceptor.service';
 import { WorkplaceService } from './services/workplace.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 const MODULES = [
   TypeaheadModule.forRoot(),
@@ -46,12 +48,16 @@ const DECLARATIONS = [
   TaskdetailsAttributeComponent,
   TaskComponent,
   GeneralFieldsExtensionComponent,
-  TaskListComponent
+  TaskListComponent,
+  DashboardComponent
 ];
 
 @NgModule({
   declarations: DECLARATIONS,
-  imports: MODULES,
+  imports: [
+    MODULES,
+    InfiniteScrollModule
+  ],
   providers: [
     TaskService,
     ClassificationCategoriesService,

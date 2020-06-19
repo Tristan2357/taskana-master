@@ -35,6 +35,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   adminUrl = 'taskana/administration';
   monitorUrl = 'taskana/monitor';
   workplaceUrl = 'taskana/workplace';
+  workplaceDashboardUrl = 'taskana/workplace/dashboard';
   historyUrl = 'taskana/history';
 
   administrationAccess = false;

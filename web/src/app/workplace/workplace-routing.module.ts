@@ -4,6 +4,7 @@ import { MasterAndDetailComponent } from '../shared/components/master-and-detail
 import { TaskComponent } from './components/task/task.component';
 import { TaskdetailsComponent } from './components/taskdetails/taskdetails.component';
 import { TaskMasterComponent } from './components/task-master/task-master.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
         outlet: 'detail'
       }
     ]
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
   },
   {
     path: '',

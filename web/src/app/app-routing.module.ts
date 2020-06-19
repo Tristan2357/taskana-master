@@ -6,6 +6,7 @@ import { MonitorGuard } from './shared/guards/monitor.guard';
 import { UserGuard } from './shared/guards/user.guard';
 import { HistoryGuard } from './shared/guards/history.guard';
 import { NoAccessComponent } from './shared/components/no-access/no-access.component';
+import { DashboardComponent } from './workplace/components/dashboard/dashboard.component';
 
 const appRoutes: Routes = [
   {
