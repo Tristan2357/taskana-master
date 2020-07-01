@@ -14,7 +14,7 @@ import { ITreeOptions, KEYS, TREE_ACTIONS, TreeComponent } from 'angular-tree-co
 import { Pair } from 'app/shared/models/pair';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionCompleted, ofActionDispatched, Select, Store } from '@ngxs/store';
 import { EngineConfigurationSelectors } from 'app/shared/store/engine-configuration-store/engine-configuration.selectors';
 
 import { Location } from '@angular/common';
@@ -70,6 +70,7 @@ export class TaskanaTreeComponent implements OnInit, AfterViewChecked, OnDestroy
   private filterIconOld = '';
   private action: ACTION;
   private destroy$ = new Subject<void>();
+  private requestInProgress: boolean;
 
   constructor(
     private elementRef: ElementRef,
@@ -77,7 +78,8 @@ export class TaskanaTreeComponent implements OnInit, AfterViewChecked, OnDestroy
     private location: Location,
     private store: Store,
     private notificationsService: NotificationService,
-    private classificationTreeService: ClassificationTreeService
+    private classificationTreeService: ClassificationTreeService,
+    private ngxsActions$: Actions
   ) {
   }
 
@@ -116,6 +118,15 @@ export class TaskanaTreeComponent implements OnInit, AfterViewChecked, OnDestroy
         this.deselectActiveNode();
       }
     });
+
+    this.ngxsActions$.pipe(ofActionDispatched(SelectClassification),
+      takeUntil(this.destroy$))
+      .subscribe(() => {
+      });
+    this.ngxsActions$.pipe(ofActionCompleted(SelectClassification),
+      takeUntil(this.destroy$))
+      .subscribe(() => {
+      });
   }
 
   ngAfterViewChecked(): void {

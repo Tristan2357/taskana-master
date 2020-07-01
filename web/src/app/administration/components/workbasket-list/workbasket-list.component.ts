@@ -6,7 +6,6 @@ import { WorkbasketSummaryResource } from 'app/shared/models/workbasket-summary-
 import { WorkbasketSummary } from 'app/shared/models/workbasket-summary';
 import { Filter } from 'app/shared/models/filter';
 import { Sorting } from 'app/shared/models/sorting';
-import { Orientation } from 'app/shared/models/orientation';
 
 import { WorkbasketService } from 'app/shared/services/workbasket/workbasket.service';
 import { OrientationService } from 'app/shared/services/orientation/orientation.service';
@@ -36,7 +35,7 @@ export class WorkbasketListComponent implements OnInit, OnDestroy {
   @ViewChild('wbToolbar', { static: true })
   private toolbarElement: ElementRef;
 
-  private workBasketSummarySubscription: Subscription;
+  private workbasketSummarySubscription: Subscription;
   private workbasketServiceSubscription: Subscription;
   private workbasketServiceSavedSubscription: Subscription;
   private orientationSubscription: Subscription;
@@ -52,7 +51,6 @@ export class WorkbasketListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.requestInProgress = true;
     this.workbasketServiceSubscription = this.workbasketService.getSelectedWorkBasket().subscribe(workbasketIdSelected => {
       // TODO should be done in a different way.
       setTimeout(() => {
@@ -63,13 +61,13 @@ export class WorkbasketListComponent implements OnInit, OnDestroy {
     TaskanaQueryParameters.page = this.pageSelected;
     TaskanaQueryParameters.pageSize = this.pageSize;
 
-    this.workbasketServiceSavedSubscription = this.workbasketService.workbasketSavedTriggered().subscribe(value => {
+    this.workbasketServiceSavedSubscription = this.workbasketService.workbasketSavedTriggered().subscribe(() => {
       this.performRequest();
     });
-    this.orientationSubscription = this.orientationService.getOrientation().subscribe((orientation: Orientation) => {
+    this.orientationSubscription = this.orientationService.getOrientation().subscribe(() => {
       this.refreshWorkbasketList();
     });
-    this.importingExportingSubscription = this.importExportService.getImportingFinished().subscribe((value: Boolean) => {
+    this.importingExportingSubscription = this.importExportService.getImportingFinished().subscribe(() => {
       this.refreshWorkbasketList();
     });
   }
@@ -109,17 +107,16 @@ export class WorkbasketListComponent implements OnInit, OnDestroy {
       true, this.sort.sortBy, this.sort.sortDirection, '',
       this.filterBy.filterParams.name, this.filterBy.filterParams.description, '', this.filterBy.filterParams.owner,
       this.filterBy.filterParams.type, '', this.filterBy.filterParams.key, ''
-    )
-      .subscribe(resultList => {
-        this.workbasketsResource = resultList;
-        this.workbaskets = resultList.workbaskets;
-        this.requestInProgress = false;
-      });
+    ).subscribe(resultList => {
+      this.workbasketsResource = resultList;
+      this.workbaskets = resultList.workbaskets;
+      this.requestInProgress = false;
+    });
   }
 
   ngOnDestroy() {
-    if (this.workBasketSummarySubscription) {
-      this.workBasketSummarySubscription.unsubscribe();
+    if (this.workbasketSummarySubscription) {
+      this.workbasketSummarySubscription.unsubscribe();
     }
     if (this.workbasketServiceSubscription) {
       this.workbasketServiceSubscription.unsubscribe();
@@ -130,7 +127,6 @@ export class WorkbasketListComponent implements OnInit, OnDestroy {
     if (this.orientationSubscription) {
       this.orientationSubscription.unsubscribe();
     }
-
     if (this.importingExportingSubscription) {
       this.importingExportingSubscription.unsubscribe();
     }

@@ -59,8 +59,6 @@ export class WorkbasketDistributionTargetsComponent implements OnChanges, OnDest
 
   requestInProgressLeft = false;
   requestInProgressRight = false;
-  loadingItems = false;
-  modalErrorMessage: string;
   side = Side;
   private initialized = false;
   page: Page;
@@ -90,7 +88,7 @@ export class WorkbasketDistributionTargetsComponent implements OnChanges, OnDest
 
   onScroll(side: Side) {
     if (side === this.side.LEFT && this.page.totalPages > TaskanaQueryParameters.page) {
-      this.loadingItems = true;
+      this.requestInProgressLeft = true;
       this.getNextPage(side);
     }
   }
@@ -131,7 +129,10 @@ export class WorkbasketDistributionTargetsComponent implements OnChanges, OnDest
       return true;
     },
     error => {
-      this.notificationsService.triggerError(NOTIFICATION_TYPES.SAVE_ERR_3, error);
+      this.notificationsService.triggerError(
+        NOTIFICATION_TYPES.SAVE_ERR_3, error,
+        new Map<String, String>([['workbasketId', this.workbasket.workbasketId]])
+      );
       this.requestInProgressService.setRequestInProgress(false);
       return false;
     });
@@ -271,7 +272,7 @@ export class WorkbasketDistributionTargetsComponent implements OnChanges, OnDest
   }
 
   private onRequest(finished: boolean = false, side?: Side) {
-    this.loadingItems = false;
+    this.requestInProgressLeft = false;
     const inProgress = !finished;
     switch (side) {
       case Side.LEFT: this.requestInProgressLeft = inProgress;

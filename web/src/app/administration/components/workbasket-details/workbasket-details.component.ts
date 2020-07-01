@@ -33,7 +33,7 @@ export class WorkbasketDetailsComponent implements OnInit, OnDestroy {
   private domainSubscription: Subscription;
   private importingExportingSubscription: Subscription;
 
-  constructor(private service: WorkbasketService,
+  constructor(private workbasketService: WorkbasketService,
     private route: ActivatedRoute,
     private router: Router,
     private masterAndDetailService: MasterAndDetailService,
@@ -42,7 +42,7 @@ export class WorkbasketDetailsComponent implements OnInit, OnDestroy {
     private importExportService: ImportExportService) { }
 
   ngOnInit() {
-    this.workbasketSelectedSubscription = this.service.getSelectedWorkBasket().subscribe(workbasketIdSelected => {
+    this.workbasketSelectedSubscription = this.workbasketService.getSelectedWorkBasket().subscribe(workbasketIdSelected => {
       delete this.workbasket;
       this.getWorkbasketInformation(workbasketIdSelected);
     });
@@ -80,7 +80,7 @@ export class WorkbasketDetailsComponent implements OnInit, OnDestroy {
   }
 
   backClicked(): void {
-    this.service.selectWorkBasket();
+    this.workbasketService.selectWorkBasket();
     this.router.navigate(['./'], { relativeTo: this.route.parent });
   }
 
@@ -90,25 +90,22 @@ export class WorkbasketDetailsComponent implements OnInit, OnDestroy {
 
   private selectWorkbasket(id: string) {
     this.selectedId = id;
-    this.service.selectWorkBasket(id);
+    this.workbasketService.selectWorkBasket(id);
   }
 
   private getWorkbasketInformation(workbasketIdSelected?: string) {
-    this.requestInProgress = true;
-
     if (!workbasketIdSelected && this.action === ACTION.CREATE) { // CREATE
       this.workbasket = new Workbasket();
       this.domainSubscription = this.domainService.getSelectedDomain().subscribe(domain => {
         this.workbasket.domain = domain;
       });
-      this.requestInProgress = false;
     } else if (!workbasketIdSelected && this.action === ACTION.COPY) { // COPY
       this.workbasket = { ...this.workbasketCopy };
       delete this.workbasket.workbasketId;
-      this.requestInProgress = false;
     }
     if (workbasketIdSelected) {
-      this.workbasketSubscription = this.service.getWorkBasket(workbasketIdSelected).subscribe(workbasket => {
+      this.requestInProgress = true;
+      this.workbasketSubscription = this.workbasketService.getWorkbasket(workbasketIdSelected).subscribe(workbasket => {
         this.workbasket = workbasket;
         this.requestInProgress = false;
         this.checkDomainAndRedirect();

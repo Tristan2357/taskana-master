@@ -43,7 +43,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.requestInProgress = true;
     this.task = await this.taskService.getTask(id).toPromise();
     const classification = await this.classificationService.getClassification(
-      this.task.classificationSummaryResource.classificationId
+      this.task.classificationSummary.classificationId
     ).toPromise();
     this.address = this.extractUrl(classification.applicationEntryPoint) || `${this.address}/?q=${this.task.name}`;
     this.link = this.sanitizer.bypassSecurityTrustResourceUrl(this.address);
@@ -56,8 +56,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.workbasketService.getAllWorkBaskets().subscribe(workbaskets => {
       this.requestInProgress = false;
       this.workbaskets = workbaskets.workbaskets;
-
-      const index = this.workbaskets.findIndex(workbasket => workbasket.name === this.task.workbasketSummaryResource.name);
+      const index = this.workbaskets.findIndex(workbasket => workbasket.name === this.task.workbasketSummary.name);
       if (index !== -1) {
         this.workbaskets.splice(index, 1);
       }

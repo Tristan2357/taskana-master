@@ -1,3 +1,6 @@
+	<div class="overlay" *ngIf="requestInProgress">
+		<taskana-spinner [isRunning]="requestInProgress"></taskana-spinner>
+	</div>
 <div *ngIf="workbasket" id="wb-information" class="panel panel-default">
 	<div class="panel-heading">
 		<div class="pull-right btn-group">
@@ -92,6 +95,5 @@
 			<span class="material-icons md-20 green-blue">add</span>
 			<span>Add new access</span>
 		</button>
-		<taskana-spinner [isRunning]="requestInProgress" [positionClass]=""></taskana-spinner>
 	</div>
 </div>

@@ -68,18 +68,18 @@ export class TaskdetailsComponent implements OnInit, OnDestroy {
   }
 
   getTask(): void {
-    this.requestInProgress = true;
     if (this.currentId === 'new-task') {
-      this.requestInProgress = false;
       this.task = new Task('', new ObjectReference(), this.currentWorkbasket);
     } else {
+      this.requestInProgress = true;
       this.taskService.getTask(this.currentId).subscribe(task => {
-        this.requestInProgress = false;
         this.task = task;
         this.cloneTask();
         this.taskService.selectTask(task);
+        this.requestInProgress = false;
       }, error => {
         this.notificationService.triggerError(NOTIFICATION_TYPES.FETCH_ERR_7, error);
+        this.requestInProgress = false;
       });
     }
   }
@@ -145,10 +145,10 @@ export class TaskdetailsComponent implements OnInit, OnDestroy {
   private updateTask() {
     this.requestInProgressService.setRequestInProgress(true);
     this.taskService.updateTask(this.task).subscribe(task => {
-      this.requestInProgressService.setRequestInProgress(false);
       this.task = task;
       this.cloneTask();
       this.taskService.publishUpdatedTask(task);
+      this.requestInProgressService.setRequestInProgress(false);
       this.notificationService.showToast(NOTIFICATION_TYPES.SUCCESS_ALERT_14);
     }, () => {
       this.requestInProgressService.setRequestInProgress(false);
@@ -160,15 +160,15 @@ export class TaskdetailsComponent implements OnInit, OnDestroy {
     this.requestInProgressService.setRequestInProgress(true);
     this.addDateToTask();
     this.taskService.createTask(this.task).subscribe(task => {
+      this.task = task;
+      this.taskService.selectTask(this.task);
+      this.taskService.publishUpdatedTask(task);
+      this.router.navigate([`../${task.taskId}`], { relativeTo: this.route });
       this.requestInProgressService.setRequestInProgress(false);
       this.notificationService.showToast(
         NOTIFICATION_TYPES.SUCCESS_ALERT_13,
         new Map<string, string>([['taskId', task.name]])
       );
-      this.task = task;
-      this.taskService.selectTask(this.task);
-      this.taskService.publishUpdatedTask(task);
-      this.router.navigate([`../${task.taskId}`], { relativeTo: this.route });
     }, () => {
       this.requestInProgressService.setRequestInProgress(false);
       this.notificationService.showToast(NOTIFICATION_TYPES.DANGER_ALERT_2);

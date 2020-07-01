@@ -1,6 +1,6 @@
 <div class="container-scrollable">
-  <taskana-spinner [isRunning]="requestInProgress" class="floating" (spinnerIsRunning)="spinnerRunning($event)"></taskana-spinner>
-  <div id="classification-details" *ngIf="classification && !spinnerIsRunning">
+  <taskana-spinner [isRunning]="requestInProgress" class="floating"></taskana-spinner>
+  <div id="classification-details" *ngIf="classification && !requestInProgress">
     <div id="classification" class="panel panel-default classification">
 
       <!-- TITLE + ACTION BUTTONS -->

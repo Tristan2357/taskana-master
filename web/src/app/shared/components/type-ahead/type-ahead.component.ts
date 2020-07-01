@@ -59,7 +59,7 @@ export class TypeAheadComponent implements AfterViewInit, ControlValueAccessor {
   @ViewChild('inputTypeAhead', { static: false })
   private inputTypeAhead;
 
-  typeaheadLoading = false;
+  requestInProgress = false;
   typeaheadMinLength = 3;
   typeaheadWaitMs = 500;
   typeaheadOptionsInScrollableView = 6;
@@ -142,10 +142,6 @@ export class TypeAheadComponent implements AfterViewInit, ControlValueAccessor {
       }, 1);
     }
     this.typing = value;
-  }
-
-  changeTypeaheadLoading(e: boolean): void {
-    this.typeaheadLoading = e;
   }
 
   join(text: string, str: string) {

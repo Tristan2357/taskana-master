@@ -53,7 +53,7 @@ export class TaskdetailsGeneralFieldsComponent implements OnInit, OnChanges {
   }
 
   selectClassification(classification: Classification) {
-    this.task.classificationSummaryResource = classification;
+    this.task.classificationSummary = classification;
   }
 
   isFieldValid(field: string): boolean {
@@ -78,7 +78,7 @@ export class TaskdetailsGeneralFieldsComponent implements OnInit, OnChanges {
   }
 
   private changedClassification(itemSelected: any) {
-    this.task.classificationSummaryResource = itemSelected;
+    this.task.classificationSummary = itemSelected;
   }
 
   private async getClassificationByDomain() {

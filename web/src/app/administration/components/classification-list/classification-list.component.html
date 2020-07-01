@@ -51,7 +51,7 @@
 	<div class="col-xs-12 horizontal-bottom-divider"></div>
 
 	<!-- CLASSIFICATION TREE -->
-	<taskana-spinner class="col-xs-12" [isRunning]="requestInProgress" positionClass="centered-spinner-whole-screen"></taskana-spinner>
+	<taskana-spinner [isRunning]="requestInProgress"></taskana-spinner>
 	<taskana-tree class="col-xs-12" *ngIf="(classifications && classifications.length) else empty_classifications"
 	 [filterText]="inputValue" [filterIcon]="selectedCategory" (switchTaskanaSpinnerEmit)="requestInProgress=$event"></taskana-tree>
 	<ng-template #empty_classifications>

@@ -60,7 +60,7 @@ export class WorkbasketService {
   }
 
   // GET
-  getWorkBasket(id: string): Observable<Workbasket> {
+  getWorkbasket(id: string): Observable<Workbasket> {
     return this.httpClient.get<Workbasket>(`${environment.taskanaRestUrl}/v1/workbaskets/${id}`);
   }
 

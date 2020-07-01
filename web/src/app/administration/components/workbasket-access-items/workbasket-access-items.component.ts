@@ -184,7 +184,7 @@ export class WorkbasketAccessItemsComponent implements OnChanges, OnDestroy, Aft
   }
 
   private onSave() {
-    this.requestInProgressService.setRequestInProgress(true);
+    this.requestInProgress = true;
     this.workbasketService.updateWorkBasketAccessItem(
       this.accessItemsResource._links.self.href, this.AccessItemsForm.value.accessItemsGroups
     )
@@ -193,10 +193,10 @@ export class WorkbasketAccessItemsComponent implements OnChanges, OnDestroy, Aft
         this.accessItemsResetClone = this.cloneAccessItems(this.AccessItemsForm.value.accessItemsGroups);
         this.notificationsService.showToast(NOTIFICATION_TYPES.SUCCESS_ALERT_7,
           new Map<string, string>([['workbasketKey', this.workbasket.key]]));
-        this.requestInProgressService.setRequestInProgress(false);
+        this.requestInProgress = false;
       }, error => {
         this.notificationsService.triggerError(NOTIFICATION_TYPES.SAVE_ERR_2, error);
-        this.requestInProgressService.setRequestInProgress(false);
+        this.requestInProgress = false;
       });
   }
 

@@ -61,7 +61,6 @@ implements OnInit, OnChanges, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private savingWorkbasket: SavingWorkbasketService,
-    private requestInProgressService: RequestInProgressService,
     private formsValidatorService: FormsValidatorService,
     private notificationService: NotificationService
   ) {
@@ -128,40 +127,36 @@ implements OnInit, OnChanges, OnDestroy {
   }
 
   removeDistributionTargets() {
-    this.requestInProgressService.setRequestInProgress(true);
+    this.requestInProgress = true;
     this.workbasketService
-      .removeDistributionTarget(
-        this.workbasket._links.removeDistributionTargets.href
-      )
-      .subscribe(
-        reponse => {
-          this.requestInProgressService.setRequestInProgress(false);
-          this.notificationService.showToast(
-            NOTIFICATION_TYPES.SUCCESS_ALERT_9,
-            new Map<string, string>([['workbasketId', this.workbasket.workbasketId]])
-          );
-        },
-        error => {
-          this.notificationService.triggerError(NOTIFICATION_TYPES.REMOVE_ERR_2,
-            error,
-            new Map<String, String>([['workbasketId', this.workbasket.workbasketId]]));
-          this.requestInProgressService.setRequestInProgress(false);
-        }
-      );
+      .removeDistributionTarget(this.workbasket._links.removeDistributionTargets.href)
+      .subscribe(() => {
+        this.requestInProgress = false;
+        this.notificationService.showToast(
+          NOTIFICATION_TYPES.SUCCESS_ALERT_9,
+          new Map<string, string>([['workbasketId', this.workbasket.workbasketId]])
+        );
+      },
+      error => {
+        this.notificationService.triggerError(NOTIFICATION_TYPES.REMOVE_ERR_2,
+          error,
+          new Map<String, String>([['workbasketId', this.workbasket.workbasketId]]));
+        this.requestInProgress = false;
+      });
   }
 
   private onSave() {
-    this.beforeRequest();
+    this.requestInProgress = true;
     if (!this.workbasket.workbasketId) {
       this.postNewWorkbasket();
       return;
     }
-
     this.workbasketSubscription = this.workbasketService
       .updateWorkbasket(this.workbasket._links.self.href, this.workbasket)
       .subscribe(
         workbasketUpdated => {
-          this.afterRequest();
+          this.requestInProgress = false;
+          this.workbasketService.triggerWorkBasketSaved();
           this.workbasket = workbasketUpdated;
           this.workbasketClone = { ...this.workbasket };
           this.notificationService.showToast(
@@ -170,19 +165,10 @@ implements OnInit, OnChanges, OnDestroy {
           );
         },
         error => {
-          this.afterRequest();
+          this.requestInProgress = false;
           this.notificationService.triggerError(NOTIFICATION_TYPES.SAVE_ERR_4, error);
         }
       );
-  }
-
-  private beforeRequest() {
-    this.requestInProgressService.setRequestInProgress(true);
-  }
-
-  private afterRequest() {
-    this.requestInProgressService.setRequestInProgress(false);
-    this.workbasketService.triggerWorkBasketSaved();
   }
 
   private postNewWorkbasket() {
@@ -194,7 +180,7 @@ implements OnInit, OnChanges, OnDestroy {
           new Map<string, string>([['workbasketKey', workbasketUpdated.key]])
         );
         this.workbasket = workbasketUpdated;
-        this.afterRequest();
+        this.requestInProgress = false;
         this.workbasketService.triggerWorkBasketSaved();
         this.workbasketService.selectWorkBasket(this.workbasket.workbasketId);
         this.router.navigate([`../${this.workbasket.workbasketId}`], {
@@ -217,7 +203,7 @@ implements OnInit, OnChanges, OnDestroy {
       },
       error => {
         this.notificationService.triggerError(NOTIFICATION_TYPES.CREATE_ERR_2, error);
-        this.requestInProgressService.setRequestInProgress(false);
+        this.requestInProgress = false;
       }
     );
   }
@@ -229,12 +215,12 @@ implements OnInit, OnChanges, OnDestroy {
   }
 
   private onRemoveConfirmed() {
-    this.requestInProgressService.setRequestInProgress(true);
+    this.requestInProgress = true;
     this.workbasketService
       .markWorkbasketForDeletion(this.workbasket._links.self.href)
       .subscribe(
         response => {
-          this.requestInProgressService.setRequestInProgress(false);
+          this.requestInProgress = false;
           this.workbasketService.triggerWorkBasketSaved();
           if (response.status === 202) {
             this.notificationService.triggerError(NOTIFICATION_TYPES.MARK_ERR,

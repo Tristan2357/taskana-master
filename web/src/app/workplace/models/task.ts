@@ -5,8 +5,8 @@ import { ObjectReference } from './object-reference';
 export class Task {
   constructor(public taskId: string,
     public primaryObjRef: ObjectReference = new ObjectReference(),
-    public workbasketSummaryResource?: Workbasket,
-    public classificationSummaryResource?: Classification,
+    public workbasketSummary?: Workbasket,
+    public classificationSummary?: Classification,
     public businessProcessId?: string,
     public parentBusinessProcessId?: string,
     public owner?: string,

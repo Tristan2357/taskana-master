@@ -85,7 +85,7 @@ export class TaskMasterComponent implements OnInit, OnDestroy {
       task => {
         if (!this.currentBasket) {
           this.selectedId = task.taskId;
-          this.currentBasket = task.workbasketSummaryResource;
+          this.currentBasket = task.workbasketSummary;
         }
         if (!task) {
           this.selectedId = '';

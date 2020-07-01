@@ -1,6 +1,6 @@
 <taskana-nav-bar></taskana-nav-bar>
 <div (window:resize)="onResize()" class="container-fluid container-main">
-    <div class="row ">
+    <div class="row">
         <router-outlet></router-outlet>
         <taskana-spinner [isRunning]="requestInProgress" isModal=true></taskana-spinner>
         <taskana-progress-bar [ngClass]="{hidden: currentProgressValue === 0}" currentValue={{currentProgressValue}}></taskana-progress-bar>

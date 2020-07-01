@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionDispatched, Select, Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { ClassificationSelectors } from '../../../shared/store/classification-store/classification.selectors';
 import { ACTION } from '../../../shared/models/action';
@@ -23,9 +23,9 @@ export class ClassificationOverviewComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private store: Store
-  ) {
-  }
+    private store: Store,
+    private ngxsActions$: Actions
+  ) {}
 
   ngOnInit() {
     if (this.route.firstChild) {
@@ -45,11 +45,18 @@ export class ClassificationOverviewComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.selectedClassification$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(selectedClassification => {
-        this.showDetail = !!selectedClassification;
-      });
+    this.ngxsActions$.pipe(
+      ofActionDispatched(SelectClassification),
+      takeUntil(this.destroy$)
+    ).subscribe(action => {
+      this.showDetail = !!action.classificationId;
+    });
+
+    this.selectedClassification$.pipe(takeUntil(this.destroy$)).subscribe(classification => {
+      if (!classification) {
+        this.showDetail = false;
+      }
+    });
   }
 
   ngOnDestroy() {

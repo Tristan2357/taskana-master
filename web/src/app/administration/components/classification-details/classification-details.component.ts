@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionCompleted, ofActionDispatched, Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 
 import { ACTION } from 'app/shared/models/action';
@@ -27,7 +27,7 @@ import { Classification } from '../../../shared/models/classification';
 import { customFieldCount } from '../../../shared/models/classification-summary';
 import { CategoriesResponse } from '../../../shared/services/classification-categories/classification-categories.service';
 
-import { CreateClassification,
+import { CreateClassification, GetClassifications,
   RemoveSelectedClassification,
   RestoreSelectedClassification,
   SaveClassification,
@@ -67,7 +67,8 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
     private formsValidatorService: FormsValidatorService,
     private notificationsService: NotificationService,
     private importExportService: ImportExportService,
-    private store: Store
+    private store: Store,
+    private ngxsActions$: Actions
   ) {
   }
 
@@ -95,6 +96,17 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.ngxsActions$.pipe(ofActionDispatched(SelectClassification),
+      takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.requestInProgress = true;
+      });
+    this.ngxsActions$.pipe(ofActionCompleted(SelectClassification),
+      takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.requestInProgress = false;
+      });
+
     this.importExportService.getImportingFinished().pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.store.dispatch(new SelectClassification(this.classification.classificationId));
     });
@@ -102,7 +114,7 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
 
   removeClassification() {
     this.notificationsService.showDialog(`You are going to delete classification: ${this.classification.key}. Can you confirm this action?`,
-      this.removeClassificationConfirmation.bind(this));
+      this.onRemoveConfirm.bind(this));
   }
 
   isFieldValid(field: string): boolean {
@@ -139,7 +151,7 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
   onCopy() {
     if (this.action !== ACTION.CREATE) {
       this.store.dispatch(new SetActiveAction(ACTION.COPY));
-      this.classification.key = null;
+      delete this.classification.key;
     } else {
       this.notificationsService.showToast(NOTIFICATION_TYPES.WARNING_CANT_COPY);
     }
@@ -185,7 +197,7 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
   private async onSave() {
     this.requestInProgressService.setRequestInProgress(true);
     if (this.action) {
-      this.classification.classificationId = null; // in case the id has been set, but a new classification should be created
+      delete this.classification.classificationId; // in case the id has been set, but a new classification should be created
       this.store.dispatch(
         new CreateClassification(this.classification)
       ).pipe(take(1)).subscribe(store => {
@@ -197,16 +209,16 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
           /(classifications).*/g,
           `classifications/(detail:${store.classification.selectedClassification.classificationId})`
         ));
-        this.afterRequest();
+        this.requestInProgressService.setRequestInProgress(false);
       }, error => {
         this.notificationsService.triggerError(NOTIFICATION_TYPES.CREATE_ERR, error);
-        this.afterRequest();
+        this.requestInProgressService.setRequestInProgress(false);
       });
     } else {
       try {
         this.store.dispatch(new SaveClassification(this.classification))
           .pipe(take(1)).subscribe(() => {
-            this.afterRequest();
+            this.requestInProgressService.setRequestInProgress(false);
             this.notificationsService.showToast(
               NOTIFICATION_TYPES.SUCCESS_ALERT_3,
               new Map<string, string>([['classificationKey', this.classification.key]])
@@ -214,27 +226,23 @@ export class ClassificationDetailsComponent implements OnInit, OnDestroy {
           });
       } catch (error) {
         this.notificationsService.triggerError(NOTIFICATION_TYPES.SAVE_ERR, error);
-        this.afterRequest();
+        this.requestInProgressService.setRequestInProgress(false);
       }
     }
   }
 
-  private afterRequest() {
-    this.requestInProgressService.setRequestInProgress(false);
-  }
-
-  private removeClassificationConfirmation() {
+  private onRemoveConfirm() {
     if (!this.classification || !this.classification.classificationId) {
       this.notificationsService.triggerError(NOTIFICATION_TYPES.SELECT_ERR);
-      return;
-    }
-    this.requestInProgressService.setRequestInProgress(true);
+    } else {
+      this.requestInProgressService.setRequestInProgress(true);
 
-    this.store.dispatch(new RemoveSelectedClassification()).pipe(take(1)).subscribe(() => {
-      this.notificationsService.showToast(NOTIFICATION_TYPES.SUCCESS_ALERT_4,
-        new Map<string, string>([['classificationKey', this.classification.key]]));
-      this.afterRequest();
-    });
-    this.location.go(this.location.path().replace(/(classifications).*/g, 'classifications'));
+      this.store.dispatch(new RemoveSelectedClassification()).pipe(take(1)).subscribe(() => {
+        this.notificationsService.showToast(NOTIFICATION_TYPES.SUCCESS_ALERT_4,
+          new Map<string, string>([['classificationKey', this.classification.key]]));
+        this.requestInProgressService.setRequestInProgress(false);
+      });
+      this.location.go(this.location.path().replace(/(classifications).*/g, 'classifications'));
+    }
   }
 }

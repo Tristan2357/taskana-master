@@ -15,7 +15,6 @@ export class WorkbasketDualListComponent implements OnInit {
   @Input() distributionTargetsSelected: Array<WorkbasketSummary>;
   @Output() performDualListFilter = new EventEmitter<{ filterBy: Filter, side: Side }>();
   @Input() requestInProgress = false;
-  @Input() loadingItems ? = false;
   @Input() side: Side;
   @Input() header: string;
   @Output() scrolling = new EventEmitter<Side>();

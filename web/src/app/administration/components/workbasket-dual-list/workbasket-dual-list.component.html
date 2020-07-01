@@ -18,7 +18,6 @@
 	<div [@toggleDown]="toolbarState">
 		<taskana-filter (performFilter)="performAvailableFilter($event)"></taskana-filter>
 	</div>
-	<taskana-spinner [isRunning]="requestInProgress" positionClass="centered-spinner" class="floating"></taskana-spinner>
   <div infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [scrollWindow]="false" class="infinite-scroll">
 		<ul class="list-group">
 			<li class="list-group-item" *ngFor="let distributionTarget of distributionTargets | selectWorkbaskets: distributionTargetsSelected: side"
@@ -36,9 +35,7 @@
 					</dl>
 				</div>
       </li>
-      <li class="list-group-item" *ngIf="loadingItems">
-        <taskana-spinner [isRunning]="loadingItems" positionClass="centered-spinner" class="floating"></taskana-spinner>
-      </li>
+			<taskana-spinner [isRunning]="requestInProgress" positionClass="centered-spinner" class="floating"></taskana-spinner>
 		</ul>
 	</div>
 </div>
