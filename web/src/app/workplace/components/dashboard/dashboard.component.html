@@ -1,11 +1,22 @@
-<div>
+<div class="dashboard">
+  <div class="container">
   <div *ngFor="let workbasket of workbaskets" class="col-md-3">
     <div class="thumbnail">
       <div class="caption">
-        <h3>{{workbasket.name}}</h3>
+        <div class="row">
+          <div class="col-xs-9">
+            <h3 style=" margin-top: 10px">
+              <taskana-icon-type [type]="workbasket.type"
+                                 tooltip="true"></taskana-icon-type>
+              <span>{{workbasket.name}}</span></h3>
+          </div>
+          <div class="col-xs-3"><h4 style="color: gray; margin-top: 10px">
+            <span class="label {{workbasket.openTasks <= WARNING_MIN ?  'label-success': workbasket.openTasks >= DANGER_MIN ? 'label-danger' : 'label-warning'}}">{{workbasket.openTasks}}</span>
+          </h4></div>
+        </div>
         <p>{{workbasket.description}}</p>
-        <p>{{workbasket.openTasks}}</p>
       </div>
     </div>
+  </div>
   </div>
 </div>

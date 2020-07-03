@@ -1,0 +1,22 @@
+.dashboard {
+  height: calc(100vh - 52px);
+  overflow: auto;
+  .container {
+    margin-top: 1em;
+    .thumbnail {
+      height: 200px;
+    }
+  }
+  h3 {
+    span {
+      word-break: break-all;
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  .thumbnail {
+    height: 150px !important;
+  }
+}
+

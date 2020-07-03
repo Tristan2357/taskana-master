@@ -12,6 +12,9 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  readonly DANGER_MIN = 10;
+  readonly WARNING_MIN = 1;
+
   workbaskets: (Workbasket & {openTasks: Number})[];
 
   constructor(private workbasketService: WorkbasketService, private http: HttpClient) { }
