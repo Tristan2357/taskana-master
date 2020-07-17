@@ -87,6 +87,10 @@ export class TaskService {
     return this.httpClient.delete<Task>(`${this.url}/${task.taskId}`);
   }
 
+  cancelClaim(task: Task): Observable<Task> {
+    return this.httpClient.delete<Task>(`${this.url}/${task.taskId}/claim`);
+  }
+
   createTask(task: Task): Observable<Task> {
     return this.httpClient.post<Task>(this.url, task);
   }

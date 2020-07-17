@@ -80,6 +80,8 @@ export class TaskdetailsGeneralFieldsComponent implements OnInit, OnChanges, OnD
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  selectClassification(classification: Classification) {
+    this.task.classificationSummary = classification;
   }
 
   isFieldValid(field: string): boolean {

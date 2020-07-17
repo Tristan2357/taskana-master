@@ -7,6 +7,9 @@ import { TaskService } from 'app/workplace/services/task.service';
 import { WorkbasketService } from 'app/shared/services/workbasket/workbasket.service';
 import { Subscription } from 'rxjs';
 import { ClassificationsService } from 'app/shared/services/classifications/classifications.service';
+import { take } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'taskana-task',
@@ -22,6 +25,7 @@ export class TaskComponent implements OnInit, OnDestroy {
   link: SafeResourceUrl;
 
   task: Task = null;
+  quickMode = false;
   workbaskets: Workbasket[];
 
   constructor(
@@ -30,14 +34,15 @@ export class TaskComponent implements OnInit, OnDestroy {
     private classificationService: ClassificationsService,
     private route: ActivatedRoute,
     private router: Router,
-    private sanitizer: DomSanitizer
-  ) {}
+    private sanitizer: DomSanitizer, private http: HttpClient) {
+  }
 
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
       const { id } = params;
       this.getTask(id);
     });
+    this.quickMode = this.route.snapshot.url[0].path.includes('processing');
   }
 
   async getTask(id: string) {
@@ -76,17 +81,25 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   completeTask() {
     this.requestInProgress = true;
-    this.taskService.completeTask(this.task.taskId).subscribe((task) => {
+    this.taskService.completeTask(this.task.taskId).subscribe(task => {
       this.requestInProgress = false;
       this.task = task;
       this.taskService.publishUpdatedTask(task);
-      this.navigateBack();
+      if (this.quickMode) {
+        this.navigateForward();
+      } else {
+        this.navigateBack();
+      }
     });
   }
 
   navigateBack() {
-    this.router.navigate([{ outlets: { detail: `taskdetail/${this.task.taskId}` } }], {
-      relativeTo: this.route.parent
+    this.taskService.cancelClaim(this.task).pipe(take(1)).subscribe(() => {
+      if (this.quickMode) {
+        this.router.navigate(['dashboard'], { relativeTo: this.route.parent });
+      } else {
+        this.router.navigate([{ outlets: { detail: `taskdetail/${this.task.taskId}` } }], { relativeTo: this.route.parent });
+      }
     });
   }
 
@@ -116,5 +129,15 @@ export class TaskComponent implements OnInit, OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
+  }
+
+  private navigateForward() {
+    const httpObservable = this.http.post<Task>(
+      `${environment.taskanaRestUrl}/v1/tasks/select-and-claim?workbasket-id=${this.task.workbasketSummary.workbasketId}`,
+      ''
+    );
+    httpObservable.pipe(take(1)).subscribe((task: Task) => {
+      this.router.navigate(['task-processing', task.taskId], { relativeTo: this.route.parent });
+    });
   }
 }

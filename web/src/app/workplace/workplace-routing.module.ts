@@ -33,6 +33,10 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
+    path: 'task-processing/:id',
+    component: TaskComponent
+  },
+  {
     path: '',
     redirectTo: 'tasks',
     pathMatch: 'full'

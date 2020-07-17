@@ -1,13 +1,13 @@
 <div class="dashboard">
   <div class="container">
-  <div *ngFor="let workbasket of workbaskets" class="col-md-3">
+  <div *ngFor="let workbasket of workbaskets" class="col-md-3" (click)="selectClaim(workbasket)" style="cursor: pointer">
     <div class="thumbnail">
       <div class="caption">
         <div class="row">
           <div class="col-xs-9">
             <h3 style=" margin-top: 10px">
-              <taskana-icon-type [type]="workbasket.type"
-                                 tooltip="true"></taskana-icon-type>
+              <taskana-administration-icon-type [type]="workbasket.type"
+                                 tooltip="true"></taskana-administration-icon-type>
               <span>{{workbasket.name}}</span></h3>
           </div>
           <div class="col-xs-3"><h4 style="color: gray; margin-top: 10px">

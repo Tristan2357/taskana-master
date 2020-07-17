@@ -97,6 +97,23 @@ export class TaskMasterComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this.taskService.getSelectedTask().subscribe(
+      task => {
+        if (!this.currentBasket) {
+          this.selectedId = task.taskId;
+          this.currentBasket = task.workbasketSummary;
+        }
+        if (!task) {
+          this.selectedId = '';
+        }
+      }
+    );
+    this.orientationSubscription = this.orientationService.getOrientation().subscribe((orientation: Orientation) => {
+      this.refreshWorkbasketList();
+    });
+  }
+
   performSorting(sort: Sorting) {
     this.sort = sort;
     this.getTasks();
