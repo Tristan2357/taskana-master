@@ -12,7 +12,7 @@ import { RequestInProgressService } from 'app/shared/services/request-in-progres
 import { SelectedRouteService } from 'app/shared/services/selected-route/selected-route';
 import { configureTests } from 'app/app.test.configuration';
 import { ClassificationPagingList } from 'app/shared/models/classification-paging-list';
-import { TaskdetailsGeneralFieldsComponent } from './general-fields.component';
+import { TaskDetailsGeneralFieldsComponent } from './general-fields.component';
 
 @Component({
   selector: 'taskana-dummy-detail',
@@ -22,8 +22,8 @@ export class DummyDetailComponent {}
 
 // TODO: test pending to test. Failing random
 xdescribe('GeneralComponent', () => {
-  let component: TaskdetailsGeneralFieldsComponent;
-  let fixture: ComponentFixture<TaskdetailsGeneralFieldsComponent>;
+  let component: TaskDetailsGeneralFieldsComponent;
+  let fixture: ComponentFixture<TaskDetailsGeneralFieldsComponent>;
   let classificationsService;
 
   const routes: Routes = [{ path: '*', component: DummyDetailComponent }];
@@ -32,7 +32,7 @@ xdescribe('GeneralComponent', () => {
     const configure = (testBed: TestBed) => {
       testBed.configureTestingModule({
         imports: [FormsModule, HttpClientModule, RouterTestingModule.withRoutes(routes)],
-        declarations: [TaskdetailsGeneralFieldsComponent, DummyDetailComponent],
+        declarations: [TaskDetailsGeneralFieldsComponent, DummyDetailComponent],
         providers: [
           HttpClient,
           ClassificationCategoriesService,
@@ -75,7 +75,7 @@ xdescribe('GeneralComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TaskdetailsGeneralFieldsComponent);
+    fixture = TestBed.createComponent(TaskDetailsGeneralFieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

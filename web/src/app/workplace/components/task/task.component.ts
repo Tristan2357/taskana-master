@@ -34,8 +34,8 @@ export class TaskComponent implements OnInit, OnDestroy {
     private classificationService: ClassificationsService,
     private route: ActivatedRoute,
     private router: Router,
-    private sanitizer: DomSanitizer, private http: HttpClient) {
-  }
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit() {
     this.routeSubscription = this.route.params.subscribe((params) => {
@@ -81,7 +81,7 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   completeTask() {
     this.requestInProgress = true;
-    this.taskService.completeTask(this.task.taskId).subscribe(task => {
+    this.taskService.completeTask(this.task.taskId).subscribe((task) => {
       this.requestInProgress = false;
       this.task = task;
       this.taskService.publishUpdatedTask(task);
@@ -94,13 +94,18 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   navigateBack() {
-    this.taskService.cancelClaim(this.task).pipe(take(1)).subscribe(() => {
-      if (this.quickMode) {
-        this.router.navigate(['dashboard'], { relativeTo: this.route.parent });
-      } else {
-        this.router.navigate([{ outlets: { detail: `taskdetail/${this.task.taskId}` } }], { relativeTo: this.route.parent });
-      }
-    });
+    this.taskService
+      .cancelClaim(this.task)
+      .pipe(take(1))
+      .subscribe(() => {
+        if (this.quickMode) {
+          this.router.navigate(['dashboard'], { relativeTo: this.route.parent });
+        } else {
+          this.router.navigate([{ outlets: { detail: `taskdetail/${this.task.taskId}` } }], {
+            relativeTo: this.route.parent
+          });
+        }
+      });
   }
 
   private extractUrl(url: string): string {
@@ -132,12 +137,11 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   private navigateForward() {
-    const httpObservable = this.http.post<Task>(
-      `${environment.taskanaRestUrl}/v1/tasks/select-and-claim?workbasket-id=${this.task.workbasketSummary.workbasketId}`,
-      ''
-    );
-    httpObservable.pipe(take(1)).subscribe((task: Task) => {
-      this.router.navigate(['task-processing', task.taskId], { relativeTo: this.route.parent });
-    });
+    this.taskService
+      .selectAndClaim(this.task.workbasketSummary.workbasketId)
+      .pipe(take(1))
+      .subscribe((task: Task) => {
+        this.router.navigate(['task-processing', task.taskId], { relativeTo: this.route.parent });
+      });
   }
 }

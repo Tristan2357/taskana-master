@@ -13,7 +13,7 @@ import { WorkplaceRoutingModule } from './workplace-routing.module';
 import { TaskListToolbarComponent } from './components/task-list-toolbar/task-list-toolbar.component';
 import { TaskMasterComponent } from './components/task-master/task-master.component';
 import { TaskdetailsComponent } from './components/taskdetails/taskdetails.component';
-import { TaskdetailsGeneralFieldsComponent } from './components/taskdetails-general/general-fields.component';
+import { TaskDetailsGeneralFieldsComponent } from './components/taskdetails-general/general-fields.component';
 import { TaskdetailsCustomFieldsComponent } from './components/taskdetails-custom-fields/custom-fields.component';
 import { TaskdetailsAttributeComponent } from './components/taskdetails-attribute/attribute.component';
 import { TaskComponent } from './components/task/task.component';
@@ -43,7 +43,7 @@ const DECLARATIONS = [
   TaskListToolbarComponent,
   TaskMasterComponent,
   TaskdetailsComponent,
-  TaskdetailsGeneralFieldsComponent,
+  TaskDetailsGeneralFieldsComponent,
   TaskdetailsCustomFieldsComponent,
   TaskdetailsAttributeComponent,
   TaskComponent,
@@ -54,10 +54,7 @@ const DECLARATIONS = [
 
 @NgModule({
   declarations: DECLARATIONS,
-  imports: [
-    MODULES,
-    InfiniteScrollModule
-  ],
+  imports: [MODULES, InfiniteScrollModule],
   providers: [
     TaskService,
     ClassificationCategoriesService,

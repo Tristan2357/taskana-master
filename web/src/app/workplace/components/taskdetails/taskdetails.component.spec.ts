@@ -11,7 +11,7 @@ import { WorkplaceService } from '../../services/workplace.service';
 import { TaskService } from '../../services/task.service';
 import { TaskdetailsAttributeComponent } from '../taskdetails-attribute/attribute.component';
 import { TaskdetailsCustomFieldsComponent } from '../taskdetails-custom-fields/custom-fields.component';
-import { TaskdetailsGeneralFieldsComponent } from '../taskdetails-general/general-fields.component';
+import { TaskDetailsGeneralFieldsComponent } from '../taskdetails-general/general-fields.component';
 import { TaskdetailsComponent } from './taskdetails.component';
 import { NotificationService } from '../../../shared/services/notifications/notification.service';
 
@@ -33,7 +33,7 @@ xdescribe('TaskdetailsComponent', () => {
       declarations: [
         TaskdetailsComponent,
         SpinnerComponent,
-        TaskdetailsGeneralFieldsComponent,
+        TaskDetailsGeneralFieldsComponent,
         TaskdetailsCustomFieldsComponent,
         TaskdetailsAttributeComponent,
         DummyDetailComponent

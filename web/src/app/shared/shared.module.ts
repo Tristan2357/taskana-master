@@ -50,6 +50,7 @@ import { HttpClientInterceptor } from './services/http-client-interceptor/http-c
 import { AccessIdsService } from './services/access-ids/access-ids.service';
 import { ToastComponent } from './components/toast/toast.component';
 import { DialogPopUpComponent } from './components/popup/dialog-pop-up.component';
+import { ReportService } from './services/report/report.service';
 
 const MODULES = [
   CommonModule,
@@ -105,7 +106,8 @@ const DECLARATIONS = [
     },
     AccessIdsService,
     ClassificationsService,
-    WorkbasketService
+    WorkbasketService,
+    ReportService
   ],
   entryComponents: [ToastComponent, DialogPopUpComponent]
 })

@@ -74,6 +74,10 @@ export class TaskService {
     return this.httpClient.post<Task>(`${this.url}/${id}/claim`, 'test');
   }
 
+  selectAndClaim(workbasketId: string): Observable<Task> {
+    return this.httpClient.post<Task>(`${this.url}/select-and-claim?workbasket-id=${workbasketId}`, '');
+  }
+
   transferTask(taskId: string, workbasketId: string): Observable<Task> {
     return this.httpClient.post<Task>(`${this.url}/${taskId}/transfer/${workbasketId}`, '');
   }

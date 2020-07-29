@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ReportData } from '../../models/report-data';
 import { ChartData } from '../../models/chart-data';
 import { ChartColorsDefinition } from '../../models/chart-colors';
-import { RestConnectorService } from '../../services/rest-connector.service';
+import { ReportService } from '../../../shared/services/report/report.service';
 import { MetaInfoData } from '../../models/meta-info-data';
 import { RequestInProgressService } from '../../../shared/services/request-in-progress/request-in-progress.service';
 
@@ -28,13 +28,13 @@ export class WorkbasketReportDueDateComponent implements OnInit {
   lineChartColors = ChartColorsDefinition.getColors();
 
   constructor(
-    private restConnectorService: RestConnectorService,
+    private restConnectorService: ReportService,
     private requestInProgressService: RequestInProgressService
   ) {}
 
   async ngOnInit() {
     this.requestInProgressService.setRequestInProgress(true);
-    this.reportData = await this.restConnectorService.getWorkbasketStatisticsQueryingByDueDate().toPromise();
+    this.reportData = await this.restConnectorService.getWorkbasketReportByDueDate().toPromise();
     this.metaInformation.emit(this.reportData.meta);
     this.lineChartLabels = this.reportData.meta.header;
     this.lineChartData = this.restConnectorService.getChartData(this.reportData);

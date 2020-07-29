@@ -27,7 +27,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: './general-fields.component.html',
   styleUrls: ['./general-fields.component.scss']
 })
-export class TaskdetailsGeneralFieldsComponent implements OnInit, OnChanges, OnDestroy {
+export class TaskDetailsGeneralFieldsComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   task: Task;
 
@@ -80,6 +80,7 @@ export class TaskdetailsGeneralFieldsComponent implements OnInit, OnChanges, OnD
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
   selectClassification(classification: Classification) {
     this.task.classificationSummary = classification;
   }

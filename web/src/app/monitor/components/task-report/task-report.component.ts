@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportData } from 'app/monitor/models/report-data';
-import { RestConnectorService } from '../../services/rest-connector.service';
+import { ReportService } from '../../../shared/services/report/report.service';
 import { RequestInProgressService } from '../../../shared/services/request-in-progress/request-in-progress.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class TaskReportComponent implements OnInit {
   reportData: ReportData;
 
   constructor(
-    private restConnectorService: RestConnectorService,
+    private restConnectorService: ReportService,
     private requestInProgressService: RequestInProgressService
   ) {}
 
