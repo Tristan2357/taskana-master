@@ -50,7 +50,7 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
   private Duration runEvery;
   private Duration minimumAge;
   private int batchSize;
-  private boolean allCompletedSameParentBusiness;
+  private final boolean allCompletedSameParentBusiness;
 
   public HistoryCleanupJob(
       TaskanaEngine taskanaEngine,
@@ -239,7 +239,7 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
   private void initJobParameters(Properties props) {
 
     String jobBatchSizeProperty = props.getProperty(TASKANA_JOB_HISTORY_BATCH_SIZE);
-    if (jobBatchSizeProperty != null && !jobBatchSizeProperty.isEmpty()) {
+    if (isADefinedProperty(jobBatchSizeProperty)) {
       try {
         batchSize = Integer.parseInt(jobBatchSizeProperty);
       } catch (Exception e) {
@@ -252,7 +252,7 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
 
     String historyCleanupJobFirstRunProperty =
         props.getProperty(TASKANA_JOB_HISTORY_CLEANUP_FIRST_RUN);
-    if (historyCleanupJobFirstRunProperty != null && !historyCleanupJobFirstRunProperty.isEmpty()) {
+    if (isADefinedProperty(historyCleanupJobFirstRunProperty)) {
       try {
         firstRun = Instant.parse(historyCleanupJobFirstRunProperty);
       } catch (Exception e) {
@@ -266,7 +266,7 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
 
     String historyCleanupJobRunEveryProperty =
         props.getProperty(TASKANA_JOB_HISTORY_CLEANUP_RUN_EVERY);
-    if (historyCleanupJobRunEveryProperty != null && !historyCleanupJobRunEveryProperty.isEmpty()) {
+    if (isADefinedProperty(historyCleanupJobRunEveryProperty)) {
       try {
         runEvery = Duration.parse(historyCleanupJobRunEveryProperty);
       } catch (Exception e) {
@@ -279,8 +279,7 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
 
     String historyEventCleanupJobMinimumAgeProperty =
         props.getProperty(TASKANA_JOB_HISTORY_CLEANUP_MINIMUM_AGE);
-    if (historyEventCleanupJobMinimumAgeProperty != null
-        && !historyEventCleanupJobMinimumAgeProperty.isEmpty()) {
+    if (isADefinedProperty(historyEventCleanupJobMinimumAgeProperty)) {
       try {
         minimumAge = Duration.parse(historyEventCleanupJobMinimumAgeProperty);
       } catch (Exception e) {
@@ -298,6 +297,10 @@ public class HistoryCleanupJob extends AbstractTaskanaJob {
     LOGGER.debug(
         "HistoryCleanupJob configuration: minimum age of history events to be cleanup up is {}",
         minimumAge);
+  }
+
+  private boolean isADefinedProperty(String property) {
+    return property != null && !property.isEmpty();
   }
 
   private Properties readPropertiesFromFile(String propertiesFile) {
