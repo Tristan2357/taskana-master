@@ -122,15 +122,19 @@ context('TASKANA Workbaskets', () => {
 
     cy.visitTestWorkbasket();
     cy.visitWorkbasketsDistributionTargetsPage();
-    cy.get('#dual-list-Left > .dual-list.list-left > .infinite-scroll > .list-group > :nth-child(1)').click();
+    cy.contains(
+      '#dual-list-Left > .dual-list.list-left > .infinite-scroll > .list-group > :nth-child(1)',
+      'owner0815'
+    ).click();
     cy.get('.list-arrows > .move-right').contains('chevron_right').click();
     cy.saveWorkbaskets();
     cy.reloadPageWithWait();
     cy.visitWorkbasketsDistributionTargetsPage();
     cy.wait('@workbasketsDistributionTargets');
     cy.get('#dual-list-right > .dual-list.list-left > .infinite-scroll > .list-group').should('have.length', 1);
-    cy.get('#dual-list-right > .dual-list.list-left > .infinite-scroll > .list-group')
-      .contains('owner0815')
-      .should('exist');
+    cy.contains(
+      '#dual-list-right > .dual-list.list-left > .infinite-scroll > .list-group > :nth-child(1)',
+      'owner0815'
+    ).should('exist');
   });
 });

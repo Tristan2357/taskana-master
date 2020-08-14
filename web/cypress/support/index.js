@@ -18,9 +18,3 @@ import './commands';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-
-module.exports = (on, config) => {
-  return {
-    browsers: config.browsers.filter((b) => b.majorVersion === 83)
-  };
-};
