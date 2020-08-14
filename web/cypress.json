@@ -10,6 +10,8 @@
     "testValueClassifications": "CY-TEST-CLASSIFICATIONS",
     "testValueWorkbasketSelectionName": "basxet0",
     "testValueWorkbaskets": "CY-TEST-WORKBASKETS",
-    "isLocal": true
+    "isLocal": true,
+    "viewportHeight": 1024,
+    "viewportWidth": 1280
   }
 }

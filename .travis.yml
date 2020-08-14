@@ -9,6 +9,7 @@ jdk:
 addons:
   sonarcloud:
     organization: $SONAR_ORGANIZATION
+  chrome: stable
 
 git:
   #depth false needed by sonarcloud for deep comparison
