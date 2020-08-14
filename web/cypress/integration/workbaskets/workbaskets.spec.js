@@ -11,7 +11,7 @@ context('TASKANA Workbaskets', () => {
 
   it('should be able to filter workbaskets via owner', () => {
     cy.visit(Cypress.env('appUrl') + Cypress.env('adminUrl') + '/workbaskets').then(() =>
-      cy.get('#collapsedMenufilterWb').click()
+      cy.get('[title="Filter"]').click()
     );
 
     cy.get('[placeholder="Filter owner"]')
@@ -122,12 +122,14 @@ context('TASKANA Workbaskets', () => {
 
     cy.visitTestWorkbasket();
     cy.visitWorkbasketsDistributionTargetsPage();
+    cy.wait('@workbasketsDistributionTargets');
     cy.contains(
       '#dual-list-Left > .dual-list.list-left > .infinite-scroll > .list-group > :nth-child(1)',
       'owner0815'
     ).click();
     cy.get('.list-arrows > .move-right').contains('chevron_right').click();
     cy.saveWorkbaskets();
+
     cy.reloadPageWithWait();
     cy.visitWorkbasketsDistributionTargetsPage();
     cy.wait('@workbasketsDistributionTargets');
