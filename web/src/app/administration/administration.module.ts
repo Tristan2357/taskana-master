@@ -116,7 +116,6 @@ const DECLARATIONS = [
     SavingWorkbasketService,
     ClassificationCategoriesService,
     ImportExportService
-  ],
-  entryComponents: []
+  ]
 })
 export class AdministrationModule {}
