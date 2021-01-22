@@ -62,6 +62,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { WorkbasketFilterComponent } from './components/workbasket-filter/workbasket-filter.component';
 import { TaskFilterComponent } from './components/task-filter/task-filter.component';
+import { ClassificationCategoriesService } from './services/classification-categories/classification-categories.service';
 
 const MODULES = [
   CommonModule,

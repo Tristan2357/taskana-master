@@ -34,11 +34,13 @@ import { WorkbasketComponent } from '../../../administration/models/workbasket-c
 import { ButtonAction } from '../../../administration/models/button-action';
 import { ActivatedRoute } from '@angular/router';
 import { RequestInProgressService } from '../../services/request-in-progress/request-in-progress.service';
+import { Injectable } from '@angular/core';
 
 class InitializeStore {
   static readonly type = '[Workbasket] Initializing state';
 }
 
+@Injectable()
 @State<WorkbasketStateModel>({ name: 'workbasket' })
 export class WorkbasketState implements NgxsAfterBootstrap {
   constructor(
