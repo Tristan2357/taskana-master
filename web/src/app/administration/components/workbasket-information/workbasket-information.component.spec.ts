@@ -22,10 +22,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SelectedRouteService } from '../../../shared/services/selected-route/selected-route';
 import { ClassificationCategoriesService } from '../../../shared/services/classification-categories/classification-categories.service';
 import { ACTION } from '../../../shared/models/action';
-import { TypeaheadModule } from 'ngx-bootstrap';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 import { TypeAheadComponent } from '../../../shared/components/type-ahead/type-ahead.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MarkWorkbasketForDeletion, UpdateWorkbasket } from '../../../shared/store/workbasket-store/workbasket.actions';
+import {
+  MarkWorkbasketForDeletion,
+  UpdateWorkbasket
+} from '../../../shared/store/workbasket-store/workbasket.actions';
 import {
   selectedWorkbasketMock,
   engineConfigurationMock,
@@ -41,14 +44,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
-@Component({ selector: 'taskana-shared-field-error-display', template: '' })
+@Component({selector: 'taskana-shared-field-error-display', template: ''})
 class FieldErrorDisplayStub {
   @Input() displayError: boolean;
   @Input() errorMessage: string;
   @Input() validationTrigger: boolean;
 }
 
-@Component({ selector: 'taskana-administration-icon-type', template: '' })
+@Component({selector: 'taskana-administration-icon-type', template: ''})
 class IconTypeStub {
   @Input() type: WorkbasketType;
   @Input() text: string;
@@ -60,8 +63,8 @@ const workbasketServiceMock = jest.fn().mockImplementation(
     triggerWorkBasketSaved: triggerWorkbasketSavedFn,
     updateWorkbasket: jest.fn().mockReturnValue(of(true)),
     markWorkbasketForDeletion: jest.fn().mockReturnValue(of(true)),
-    createWorkbasket: jest.fn().mockReturnValue(of({ ...selectedWorkbasketMock })),
-    getWorkBasket: jest.fn().mockReturnValue(of({ ...selectedWorkbasketMock })),
+    createWorkbasket: jest.fn().mockReturnValue(of({...selectedWorkbasketMock})),
+    getWorkBasket: jest.fn().mockReturnValue(of({...selectedWorkbasketMock})),
     getWorkBasketAccessItems: jest.fn().mockReturnValue(of()),
     getWorkBasketsDistributionTargets: jest.fn().mockReturnValue(of())
   })
@@ -124,9 +127,9 @@ describe('WorkbasketInformationComponent', () => {
         RemoveNoneTypePipe
       ],
       providers: [
-        { provide: WorkbasketService, useClass: workbasketServiceMock },
-        { provide: FormsValidatorService, useClass: formValidatorServiceSpy },
-        { provide: NotificationService, useClass: notificationServiceSpy },
+        {provide: WorkbasketService, useClass: workbasketServiceMock},
+        {provide: FormsValidatorService, useClass: formValidatorServiceSpy},
+        {provide: NotificationService, useClass: notificationServiceSpy},
         SavingWorkbasketService,
         RequestInProgressService,
         DomainService,
@@ -196,7 +199,7 @@ describe('WorkbasketInformationComponent', () => {
   });
 
   it('should save workbasket when workbasketId there', async(() => {
-    component.workbasket = { ...selectedWorkbasketMock };
+    component.workbasket = {...selectedWorkbasketMock};
     component.workbasket.workbasketId = '1';
     component.action = ACTION.COPY;
     let actionDispatched = false;

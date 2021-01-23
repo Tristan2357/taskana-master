@@ -16,9 +16,13 @@ import { GetAccessItems } from '../../../shared/store/access-items-management-st
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { TypeAheadComponent } from '../../../shared/components/type-ahead/type-ahead.component';
-import { TypeaheadModule } from 'ngx-bootstrap';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Direction, Sorting, WorkbasketAccessItemQuerySortParameter } from '../../../shared/models/sorting';
+import {
+  Direction,
+  Sorting,
+  WorkbasketAccessItemQuerySortParameter
+} from '../../../shared/models/sorting';
 import { StartupService } from '../../../shared/services/startup/startup.service';
 import { TaskanaEngineService } from '../../../shared/services/taskana-engine/taskana-engine.service';
 import { WindowRefService } from '../../../shared/services/window/window.service';
@@ -60,12 +64,12 @@ describe('AccessItemsManagementComponent', () => {
   let store: Store;
   let actions$: Observable<any>;
 
-  @Component({ selector: 'taskana-shared-spinner', template: '' })
+  @Component({selector: 'taskana-shared-spinner', template: ''})
   class TaskanaSharedSpinnerStub {
     @Input() isRunning: boolean;
   }
 
-  @Component({ selector: 'taskana-shared-sort', template: '' })
+  @Component({selector: 'taskana-shared-sort', template: ''})
   class TaskanaSharedSortStub {
     @Input() sortingFields: Map<WorkbasketAccessItemQuerySortParameter, string>;
     @Input() defaultSortBy: WorkbasketAccessItemQuerySortParameter;
@@ -103,9 +107,9 @@ describe('AccessItemsManagementComponent', () => {
         TaskanaSharedSpinnerStub
       ],
       providers: [
-        { provide: FormsValidatorService, useClass: formValidatorServiceSpy },
-        { provide: NotificationService, useClass: notificationServiceSpy },
-        { provide: MatDialogRef, useValue: { mockDialogRef } },
+        {provide: FormsValidatorService, useClass: formValidatorServiceSpy},
+        {provide: NotificationService, useClass: notificationServiceSpy},
+        {provide: MatDialogRef, useValue: {mockDialogRef}},
         RequestInProgressService,
         ClassificationCategoriesService,
         StartupService,
@@ -153,7 +157,7 @@ describe('AccessItemsManagementComponent', () => {
   });
 
   it('should be able to get groups if selected access ID is not null in onSelectAccessId', () => {
-    const selectedAccessId = { accessId: '1', name: '' };
+    const selectedAccessId = {accessId: '1', name: ''};
     app.onSelectAccessId(selectedAccessId);
     const groups = store.selectSnapshot((state) => state.accessItemsManagement);
     expect(selectedAccessId).not.toBeNull();
@@ -163,12 +167,15 @@ describe('AccessItemsManagementComponent', () => {
   });
 
   it('should dispatch GetAccessItems action in searchForAccessItemsWorkbaskets', async((done) => {
-    app.accessId = { accessId: '1', name: 'max' };
+    app.accessId = {accessId: '1', name: 'max'};
     app.groups = [
-      { accessId: '1', name: 'users' },
-      { accessId: '2', name: 'users' }
+      {accessId: '1', name: 'users'},
+      {accessId: '2', name: 'users'}
     ];
-    app.sortModel = { 'sort-by': WorkbasketAccessItemQuerySortParameter.ACCESS_ID, order: Direction.DESC };
+    app.sortModel = {
+      'sort-by': WorkbasketAccessItemQuerySortParameter.ACCESS_ID,
+      order: Direction.DESC
+    };
     app.searchForAccessItemsWorkbaskets();
     fixture.detectChanges();
     let actionDispatched = false;
@@ -182,7 +189,7 @@ describe('AccessItemsManagementComponent', () => {
 
   it('should display a dialog when access is revoked', async(() => {
     app.accessIdSelected = 'xyz';
-    app.accessId = { accessId: 'xyz', name: 'xyz' };
+    app.accessId = {accessId: 'xyz', name: 'xyz'};
     const notificationService = TestBed.inject(NotificationService);
     const showDialogSpy = jest.spyOn(notificationService, 'showDialog').mockImplementation();
     app.revokeAccess();
@@ -201,8 +208,8 @@ describe('AccessItemsManagementComponent', () => {
       'sort-by': WorkbasketAccessItemQuerySortParameter.ACCESS_ID,
       order: Direction.DESC
     };
-    app.accessId = { accessId: '1', name: 'max' };
-    app.groups = [{ accessId: '1', name: 'users' }];
+    app.accessId = {accessId: '1', name: 'max'};
+    app.groups = [{accessId: '1', name: 'users'}];
     app.sorting(newSort);
     expect(app.sortModel).toMatchObject(newSort);
   });

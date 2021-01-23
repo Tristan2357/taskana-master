@@ -1,4 +1,11 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FormsValidatorService } from 'app/shared/services/forms-validator/forms-validator.service';
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   selectedRoute = '';
 
   requestInProgress = false;
+  requestNotInPoggers = new Subject<boolean>();
   currentProgressValue = 0;
 
   error: ErrorModel;
@@ -41,7 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public uploadService: UploadService,
     private sidenavService: SidenavService,
     private taskanaEngineService: TaskanaEngineService,
-    private window: WindowRefService
+    private window: WindowRefService,
+    private ref: ChangeDetectorRef
   ) {}
 
   @HostListener('window:resize', ['$event'])
@@ -59,11 +68,11 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.requestInProgressService
-      .getRequestInProgress()
+    this.requestInProgressService.getRequestInProgress()
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: boolean) => {
         this.requestInProgress = value;
+        this.requestNotInPoggers.next(!value);
       });
 
     this.selectedRouteService

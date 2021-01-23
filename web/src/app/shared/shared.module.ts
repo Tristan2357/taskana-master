@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { RouterModule } from '@angular/router';
-import { TreeModule } from 'angular-tree-component';
-import { AlertModule, TypeaheadModule } from 'ngx-bootstrap';
+import { TreeModule } from '@circlon/angular-tree-component';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AccordionModule } from 'ngx-bootstrap/accordion';
@@ -77,7 +78,7 @@ const MODULES = [
   MatDialogModule,
   MatButtonModule,
   RouterModule,
-  TreeModule.forRoot(),
+  TreeModule,
   MatAutocompleteModule
 ];
 
@@ -135,4 +136,5 @@ const DECLARATIONS = [
     WorkbasketService
   ]
 })
-export class SharedModule {}
+export class SharedModule {
+}
