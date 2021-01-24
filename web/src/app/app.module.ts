@@ -76,7 +76,7 @@ const MODULES = [
   BrowserModule,
   FormsModule,
   AppRoutingModule,
-  AngularSvgIconModule,
+  AngularSvgIconModule.forRoot(),
   HttpClientModule,
   BrowserAnimationsModule,
   ReactiveFormsModule,
