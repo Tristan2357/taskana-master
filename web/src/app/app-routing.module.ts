@@ -21,11 +21,17 @@ const appRoutes: Routes = [
         path: 'monitor',
         loadChildren: () => import('./monitor/monitor.module').then((m) => m.MonitorModule)
       },
-      {
+      /*{
         canActivate: [UserGuard],
         path: 'workplace',
         loadChildren: () => import('./workplace/workplace.module').then((m) => m.WorkplaceModule)
+      },*/
+      {
+        canActivate: [UserGuard],
+        path: 'workplace', //@ts-ignore
+        loadChildren: () => import('taskana_workplace/Module').then((m) => m.AppModule)
       },
+
       {
         canActivate: [HistoryGuard],
         path: 'history',
