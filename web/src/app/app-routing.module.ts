@@ -29,7 +29,10 @@ const appRoutes: Routes = [
       {
         canActivate: [UserGuard],
         path: 'workplace', //@ts-ignore
-        loadChildren: () => import('taskana_workplace/Module').then((m) => m.AppModule)
+        // loadChildren: () => import('./workplace/workplace.module').then((m) => m.WorkplaceModule)
+        loadChildren: () => import('taskana_workplace/Module').then((m) => {
+          return m.WorkplaceModule
+        })
       },
 
       {

@@ -24,6 +24,7 @@
     "webpack": "5.18.0"
   },
   "dependencies": {
+    "@angular-architects/module-federation": "^1.2.3",
     "@angular/animations": "11.1.0",
     "@angular/cdk": "11.1.0",
     "@angular/common": "11.1.0",
