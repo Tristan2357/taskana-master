@@ -6,6 +6,7 @@ import { MonitorGuard } from './shared/guards/monitor.guard';
 import { UserGuard } from './shared/guards/user.guard';
 import { HistoryGuard } from './shared/guards/history.guard';
 import { NoAccessComponent } from './shared/components/no-access/no-access.component';
+import { loadRemoteModule } from './shared/util/federation-utils';
 
 const appRoutes: Routes = [
   {
@@ -28,11 +29,13 @@ const appRoutes: Routes = [
       },*/
       {
         canActivate: [UserGuard],
-        path: 'workplace', //@ts-ignore
-        // loadChildren: () => import('./workplace/workplace.module').then((m) => m.WorkplaceModule)
-        loadChildren: () => import('taskana_workplace/Module').then((m) => {
-          return m.WorkplaceModule
-        })
+        path: 'workplace',
+        loadChildren: () =>
+          loadRemoteModule({
+          remoteName: 'mfeWorkplace',
+          remoteEntry: 'http://localhost:1337/remoteEntry.js',
+          exposedModule: 'WorkplaceModule',
+        }).then((m) => m.WorkplaceModule),
       },
 
       {
