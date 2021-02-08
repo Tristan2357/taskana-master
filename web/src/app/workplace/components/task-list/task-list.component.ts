@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class TaskListComponent implements OnInit {
   @Input()
-  tasks: Array<Task>;
+  tasks: Task[];
 
   @Input()
   selectedId: string;
@@ -18,7 +18,7 @@ export class TaskListComponent implements OnInit {
   @Output()
   selectedIdChange = new EventEmitter<string>();
 
-  constructor(private router: Router, private route: ActivatedRoute, private workplaceService: WorkplaceService) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {}
 

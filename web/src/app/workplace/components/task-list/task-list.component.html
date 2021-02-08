@@ -1,6 +1,6 @@
 <div *ngIf="(tasks && tasks.length > 0); else empty_list">
   <ul #taskList id="task-list-container" class="list-group">
-    <li class="list-group-item" *ngFor="let task of tasks" [class.active]="task.taskId == selectedId" type="text"
+    <li *ngFor="let task of tasks" class="list-group-item" [class.active]="task.taskId == selectedId" type="text"
       (click)="selectTask(task.taskId)">
       <div class="row">
         <dl class="col-xs-2">
