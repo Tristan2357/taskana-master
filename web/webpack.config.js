@@ -34,6 +34,11 @@ module.exports = {
           singleton: true,
           requiredVersion: '~11.1.0'
         },
+        "@ngxs/store": {
+          eager: true,
+          singleton: true,
+          strictVersion: false
+        },
       }
 
     }),
