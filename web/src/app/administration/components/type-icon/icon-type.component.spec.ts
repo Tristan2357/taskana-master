@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IconTypeComponent } from './icon-type.component';
 import { WorkbasketType } from '../../../shared/models/workbasket-type';
 
-@Component({selector: 'svg-icon', template: ''})
+@Component({ selector: 'svg-icon', template: '' })
 class SvgIconStub {
   @Input() src;
 }

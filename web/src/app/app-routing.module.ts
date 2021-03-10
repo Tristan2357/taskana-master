@@ -32,10 +32,10 @@ const appRoutes: Routes = [
         path: 'workplace',
         loadChildren: () =>
           loadRemoteModule({
-          remoteName: 'mfeWorkplace',
-          remoteEntry: 'http://localhost:1337/remoteEntry.js',
-          exposedModule: 'WorkplaceModule',
-        }).then((m) => m.WorkplaceModule),
+            remoteName: 'mfeWorkplace',
+            remoteEntry: 'http://localhost:1337/remoteEntry.js',
+            exposedModule: 'WorkplaceModule'
+          }).then((m) => m.WorkplaceModule)
       },
 
       {

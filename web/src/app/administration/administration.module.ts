@@ -119,5 +119,4 @@ const DECLARATIONS = [
     ImportExportService
   ]
 })
-export class AdministrationModule {
-}
+export class AdministrationModule {}

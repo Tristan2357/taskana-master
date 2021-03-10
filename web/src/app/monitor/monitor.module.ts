@@ -50,5 +50,4 @@ const DECLARATIONS = [
   imports: [MODULES, MatButtonModule],
   providers: [MonitorService, MapToIterable]
 })
-export class MonitorModule {
-}
+export class MonitorModule {}

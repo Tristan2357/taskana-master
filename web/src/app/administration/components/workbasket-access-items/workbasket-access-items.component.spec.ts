@@ -5,7 +5,7 @@ import { Actions, NgxsModule, ofActionDispatched, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TypeAheadComponent } from '../../../shared/components/type-ahead/type-ahead.component';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead'
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { SavingWorkbasketService } from '../../services/saving-workbaskets.service';
 import { RequestInProgressService } from '../../../shared/services/request-in-progress/request-in-progress.service';
 import { FormsValidatorService } from '../../../shared/services/forms-validator/forms-validator.service';
@@ -41,7 +41,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 
-@Component({selector: 'taskana-shared-spinner', template: ''})
+@Component({ selector: 'taskana-shared-spinner', template: '' })
 class SpinnerStub {
   @Input() isRunning: boolean;
   @Input() positionClass: string;
@@ -106,10 +106,10 @@ describe('WorkbasketAccessItemsComponent', () => {
       ],
       declarations: [WorkbasketAccessItemsComponent, TypeAheadComponent, SpinnerStub],
       providers: [
-        {provide: SavingWorkbasketService, useClass: savingWorkbasketServiceSpy},
-        {provide: RequestInProgressService, useClass: requestInProgressServiceSpy},
-        {provide: FormsValidatorService, useClass: formValidatorServiceSpy},
-        {provide: NotificationService, useClass: notificationServiceSpy},
+        { provide: SavingWorkbasketService, useClass: savingWorkbasketServiceSpy },
+        { provide: RequestInProgressService, useClass: requestInProgressServiceSpy },
+        { provide: FormsValidatorService, useClass: formValidatorServiceSpy },
+        { provide: NotificationService, useClass: notificationServiceSpy },
         ClassificationCategoriesService,
         WorkbasketService,
         DomainService,
@@ -125,7 +125,7 @@ describe('WorkbasketAccessItemsComponent', () => {
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
     actions$ = TestBed.inject(Actions);
-    component.workbasket = {...selectedWorkbasketMock};
+    component.workbasket = { ...selectedWorkbasketMock };
     component.accessItemsRepresentation = workbasketAccessItemsMock;
     store.reset({
       ...store.snapshot(),
@@ -137,7 +137,7 @@ describe('WorkbasketAccessItemsComponent', () => {
   }));
 
   afterEach(async(() => {
-    component.workbasket = {...selectedWorkbasketMock};
+    component.workbasket = { ...selectedWorkbasketMock };
   }));
 
   it('should create component', () => {
@@ -155,7 +155,7 @@ describe('WorkbasketAccessItemsComponent', () => {
     expect(component.onSave).toHaveBeenCalled();
   }));
 
-  it('should discard initializing when accessItems don\'t exist', () => {
+  it("should discard initializing when accessItems don't exist", () => {
     component.workbasket._links.accessItems = null;
     component.init();
     expect(component.initialized).toBe(false);

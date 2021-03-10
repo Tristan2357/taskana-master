@@ -1,11 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { FormsValidatorService } from 'app/shared/services/forms-validator/forms-validator.service';
@@ -68,7 +61,8 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.requestInProgressService.getRequestInProgress()
+    this.requestInProgressService
+      .getRequestInProgress()
       .pipe(takeUntil(this.destroy$))
       .subscribe((value: boolean) => {
         this.requestInProgress = value;

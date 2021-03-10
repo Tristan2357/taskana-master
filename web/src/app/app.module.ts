@@ -62,13 +62,7 @@ import { ClassificationCategoriesService } from './shared/services/classificatio
 import { environment } from '../environments/environment';
 import { STATES } from './shared/store';
 
-const DECLARATIONS = [
-  AppComponent,
-  NavBarComponent,
-  UserInformationComponent,
-  NoAccessComponent,
-  SidenavListComponent
-];
+const DECLARATIONS = [AppComponent, NavBarComponent, UserInformationComponent, NoAccessComponent, SidenavListComponent];
 
 const MODULES = [
   TabsModule.forRoot(),
@@ -92,8 +86,8 @@ const MODULES = [
   MatToolbarModule,
   MatProgressBarModule,
   MatProgressSpinnerModule,
-  NgxsModule.forRoot(STATES, {developmentMode: !environment.production}),
-  NgxsReduxDevtoolsPluginModule.forRoot({disabled: environment.production, maxAge: 25})
+  NgxsModule.forRoot(STATES, { developmentMode: !environment.production }),
+  NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production, maxAge: 25 })
 ];
 
 const PROVIDERS = [
@@ -128,8 +122,7 @@ const PROVIDERS = [
   providers: PROVIDERS,
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule {}
 
 export function startupServiceFactory(startupService: StartupService): () => Promise<any> {
   return (): Promise<any> => startupService.load();

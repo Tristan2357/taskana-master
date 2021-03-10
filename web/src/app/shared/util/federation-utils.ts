@@ -32,10 +32,7 @@ function loadRemoteEntry(remoteEntry: string): Promise<void> {
   });
 }
 
-async function lookupExposedModule<T>(
-  remoteName: string,
-  exposedModule: string
-): Promise<T> {
+async function lookupExposedModule<T>(remoteName: string, exposedModule: string): Promise<T> {
   // Initializes the share scope. This fills it with known provided modules from this build and all remotes
   await __webpack_init_sharing__('default');
   const container = window[remoteName] as Container; // or get the container somewhere else
@@ -53,12 +50,7 @@ export type LoadRemoteModuleOptions = {
   exposedModule: string;
 };
 
-export async function loadRemoteModule(
-  options: LoadRemoteModuleOptions
-): Promise<any> {
+export async function loadRemoteModule(options: LoadRemoteModuleOptions): Promise<any> {
   await loadRemoteEntry(options.remoteEntry);
-  return await lookupExposedModule<any>(
-    options.remoteName,
-    options.exposedModule
-  );
+  return await lookupExposedModule<any>(options.remoteName, options.exposedModule);
 }
